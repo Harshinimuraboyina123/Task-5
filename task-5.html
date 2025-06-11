@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NatureScape - Explore the Outdoors</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4fff9;
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      background: #1c1c1c;
+      color: #f4f4f4;
+    }
+
+    header {
+      background: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+      color: white;
+      padding: 4rem 1rem 5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    }
+
+    .top-right-buttons {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .top-right-buttons button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 20px;
+      background: #ffffffcc;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .top-right-buttons button:hover {
+      background: #e0f7e9;
+    }
+
+    .intro {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .intro h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #2e7d32;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .dark-mode .card {
+      background: #2b2b2b;
+      color: white;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      padding: 1rem 1rem 0.5rem;
+      color: #1b5e20;
+    }
+
+    .card p {
+      padding: 0 1rem 1rem;
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    .dark-mode .card h3,
+    .dark-mode .card p {
+      color: #f4f4f4;
+    }
+
+    .cta {
+      text-align: center;
+      margin: 3rem;
+    }
+
+    .cta button {
+      background: #43a047;
+      color: white;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .cta button:hover {
+      background: #2e7d32;
+    }
+
+    footer {
+      background: #1b5e20;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    .dark-mode footer {
+      background: #000;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    .dark-mode .popup {
+      background: #2c2c2c;
+      color: #fff;
+    }
+
+    .popup input {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .popup button {
+      width: 100%;
+      background: #43a047;
+      color: white;
+      border: none;
+      padding: 0.7rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .popup button:hover {
+      background: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="top-right-buttons">
+      <button onclick="openPopup('login')">Login</button>
+      <button onclick="openPopup('register')">Register</button>
+      <button onclick="toggleDarkMode()">🌙 Toggle Theme</button>
+    </div>
+    <h1>NatureScape</h1>
+    <p>Explore the Great Outdoors</p>
+  </header>
+
+  <section class="intro">
+    <h2>Adventure Awaits</h2>
+    <p>Discover breathtaking landscapes, explore national parks, and reconnect with nature.</p>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80" alt="Mountain View">
+      <h3>Mountain Escapes</h3>
+      <p>Find peace in the heights. Perfect destinations for hikers and climbers alike.</p>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=80" alt="Forest Trail">
+      <h3>Forest Trails</h3>
+      <p>Walk through ancient trees and hear the whisper of the wild with every step.</p>
+    </div>
+    <div class="card">
+      <img src="desert.jpg" alt="Desert View">
+      <h3>Desert Wonders</h3>
+      <p>Experience the serenity and unique beauty of vast, sandy landscapes.</p>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Beachside">
+      <h3>Coastal Getaways</h3>
+      <p>Relax by the sea and enjoy sunsets like no other across tranquil shores.</p>
+    </div>
+  </section>
+
+  <div class="cta">
+    <button onclick="document.querySelector('.grid').scrollIntoView({ behavior: 'smooth' });">Start Exploring</button>
+  </div>
+
+  <div class="popup" id="popup">
+    <h3 id="popup-title">Login</h3>
+    <input type="text" id="name" placeholder="Name (only for registration)">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="submitForm()">Submit</button>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 NatureScape. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function openPopup(type) {
+      document.getElementById('popup').style.display = 'block';
+      document.getElementById('popup-title').innerText = type === 'login' ? 'Login' : 'Register';
+      document.getElementById('name').style.display = type === 'register' ? 'block' : 'none';
+    }
+
+    function submitForm() {
+      const type = document.getElementById('popup-title').innerText.toLowerCase();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (type === 'register') {
+        alert(`Registered successfully!\nName: ${name}\nEmail: ${email}`);
+      } else {
+        alert(`Logged in successfully!\nEmail: ${email}`);
+      }
+
+      document.getElementById('popup').style.display = 'none';
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('password').value = '';
+    }
+  </script>
+</body>
+</html>
