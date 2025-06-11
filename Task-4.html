@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harshini's Stylish Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f0f4ff;
+      color: #222;
+    }
+    header, footer {
+      background: linear-gradient(to right, #4e54c8, #8f94fb);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: #ffd700; }
+    section {
+      display: none;
+      padding: 2rem;
+      animation: fadeIn 0.5s ease-in;
+    }
+    section.active { display: block; }
+    h2 { color: #ff4081; }
+    .todo input { padding: 0.5rem; margin-right: 5px; }
+    .todo ul { list-style: none; padding: 0; }
+    .todo li {
+      background: #e0f7fa;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .todo li:hover { background: #b2ebf2; }
+    .filters { margin-bottom: 1rem; }
+    .product {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      margin: 10px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .product img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    footer p { margin: 0; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Harshini's Portfolio</h1>
+    <p>Creative Developer | Stylish Projects | Powerful Ideas</p>
+    <nav>
+      <a onclick="showSection('about')">About</a>
+      <a onclick="showSection('projects')">Projects</a>
+      <a onclick="showSection('todo')">To-Do</a>
+      <a onclick="showSection('products')">Products</a>
+      <a onclick="showSection('contact')">Contact</a>
+    </nav>
+  </header>
+
+  <section id="about" class="active">
+    <h2>About Me</h2>
+    <p>Hi, I'm <strong>Muraboyina Harshini Priya</strong> — a passionate front-end developer crafting beautiful and responsive web experiences with HTML, CSS, and JavaScript.</p>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <ul>
+      <li>Fake News Detection using ML</li>
+      <li>Food Ordering Full-Stack App</li>
+      <li>Mahabharata Character Quiz</li>
+    </ul>
+  </section>
+
+  <section id="todo" class="todo">
+    <h2>To-Do List</h2>
+    <input type="text" id="taskInput" placeholder="Add a new task" />
+    <button onclick="addTask()">Add</button>
+    <ul id="taskList"></ul>
+  </section>
+
+  <section id="products">
+    <h2>Product Store</h2>
+    <div class="filters">
+      <label>Category:
+        <select id="filter" onchange="filterProducts()">
+          <option value="all">All</option>
+          <option value="tech">Tech</option>
+          <option value="fashion">Fashion</option>
+        </select>
+      </label>
+      <label>Sort:
+        <select id="sort" onchange="sortProducts()">
+          <option value="default">Default</option>
+          <option value="price">Price</option>
+          <option value="rating">Rating</option>
+        </select>
+      </label>
+    </div>
+    <div id="productList"></div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <p>Email: <a href="mailto:harshinisrinivas2005@gmail.com">harshinisrinivas2005@gmail.com</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/muraboyina-harshinipriya-0392012a1/" target="_blank">linkedin.com/in/muraboyina-harshinipriya</a></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Harshini Priya | Designed with Style</p>
+  </footer>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    const taskList = document.getElementById('taskList');
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    function renderTasks() {
+      taskList.innerHTML = '';
+      tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.textContent = task;
+        li.onclick = () => {
+          tasks.splice(index, 1);
+          localStorage.setItem('tasks', JSON.stringify(tasks));
+          renderTasks();
+        };
+        taskList.appendChild(li);
+      });
+    }
+    function addTask() {
+      const input = document.getElementById('taskInput');
+      if (input.value.trim()) {
+        tasks.push(input.value.trim());
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        input.value = '';
+        renderTasks();
+      }
+    }
+    renderTasks();
+
+    const products = [
+      {
+        name: "Smartphone",
+        category: "tech",
+        price: 20000,
+        rating: 4.5,
+        image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=80&h=80&q=80"
+      },
+      {
+        name: "T-shirt",
+        category: "fashion",
+        price: 500,
+        rating: 4.1,
+        image: "tshirt.jpg"
+      },
+      {
+        name: "Laptop",
+        category: "tech",
+        price: 55000,
+        rating: 4.8,
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=80&h=80&q=80"
+      },
+      {
+        name: "Shoes",
+        category: "fashion",
+        price: 1500,
+        rating: 4.3,
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=80&h=80&q=80"
+      }
+    ];
+
+    function displayProducts(list = products) {
+      const productList = document.getElementById('productList');
+      productList.innerHTML = '';
+      list.forEach(p => {
+        productList.innerHTML += `
+          <div class="product">
+            <img src="${p.image}" alt="${p.name}" />
+            <div>
+              <strong>${p.name}</strong><br>
+              ₹${p.price} | Rating: ${p.rating}
+            </div>
+          </div>`;
+      });
+    }
+
+    function filterProducts() {
+      const category = document.getElementById('filter').value;
+      const filtered = category === 'all' ? products : products.filter(p => p.category === category);
+      displayProducts(filtered);
+    }
+
+    function sortProducts() {
+      const sortBy = document.getElementById('sort').value;
+      let sorted = [...products];
+      if (sortBy === 'price') sorted.sort((a, b) => a.price - b.price);
+      else if (sortBy === 'rating') sorted.sort((a, b) => b.rating - a.rating);
+      displayProducts(sorted);
+    }
+
+    displayProducts();
+  </script>
+</body>
+</html>
